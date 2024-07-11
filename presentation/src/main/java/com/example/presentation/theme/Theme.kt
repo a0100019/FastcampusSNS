@@ -22,14 +22,14 @@ import androidx.core.view.WindowCompat
 //)
 
 private val ColorScheme = lightColorScheme(
-    primary = Purple40,
+    primary = primary,
     secondary = PurpleGrey40,
     tertiary = Pink40,
     onPrimary = Color.White,
     primaryContainer = primaryContainer,
     surface = Color.Black,
     onSurface = Color.White,
-    background = Color.Black,
+    background = background,
     onBackground = Color.White
 
 
