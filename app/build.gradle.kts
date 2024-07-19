@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
-//    kotlin("plugin.serialization") version "1.9.22"
+    kotlin("plugin.serialization") version "1.5.0"
 
 }
 
@@ -80,6 +80,7 @@ dependencies {
 
     implementation("com.google.dagger:hilt-android:2.48.1")
     kapt("com.google.dagger:hilt-android-compiler:2.48.1")
-//    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
-
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.serialization)
 }

@@ -4,10 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.login.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.syntax.simple.blockingIntent
 import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import javax.annotation.concurrent.Immutable
@@ -18,32 +21,38 @@ class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase
 ) : ViewModel(), ContainerHost<LoginState, LoginSideEffect> {
 
-    fun onLoginClick() {
-        val id = ""
-        val password = ""
-        viewModelScope.launch {
-            loginUseCase(id, password)
+    override val container: Container<LoginState, LoginSideEffect> = container(
+        initialState = LoginState(),
+        buildSettings = {
+            this.exceptionHandler = CoroutineExceptionHandler { _ , throwable ->
+                intent {
+                    postSideEffect(LoginSideEffect.Toast(message = throwable.message.orEmpty()))
+                }
+            }
         }
+    )
+
+    fun onLoginClick() = intent {
+        val id = state.id
+        val password = state.password
+        val token = loginUseCase(id, password).getOrThrow()
+        postSideEffect(LoginSideEffect.Toast(message = "token = $token"))
     }
 
     //아이디 입력 가능하게 하는 코드
-    fun onIdChange(id: String) = intent {
+    fun onIdChange(id: String) = blockingIntent {
         reduce {
             state.copy(id = id)
         }
 
     }
 
-    fun onPasswordChange(password: String) = intent {
+    fun onPasswordChange(password: String) = blockingIntent {
         reduce {
             state.copy(password = password)
         }
 
     }
-
-    override val container: Container<LoginState, LoginSideEffect> = container(
-        initialState = LoginState()
-    )
 
 }
 
@@ -53,4 +62,8 @@ data class LoginState(
     val password:String = "",
 )
 
-sealed interface LoginSideEffect
+
+//상태와 관련없는 것
+sealed interface LoginSideEffect{
+    class Toast(val message:String):LoginSideEffect
+}
