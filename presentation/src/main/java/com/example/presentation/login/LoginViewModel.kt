@@ -3,6 +3,7 @@ package com.example.presentation.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.login.LoginUseCase
+import com.example.domain.usecase.login.SetTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase
+    private val loginUseCase: LoginUseCase,
+    private val setTokenUseCase: SetTokenUseCase,
 ) : ViewModel(), ContainerHost<LoginState, LoginSideEffect> {
 
     override val container: Container<LoginState, LoginSideEffect> = container(
@@ -36,7 +38,12 @@ class LoginViewModel @Inject constructor(
         val id = state.id
         val password = state.password
         val token = loginUseCase(id, password).getOrThrow()
-        postSideEffect(LoginSideEffect.Toast(message = "token = $token"))
+
+        //토큰 저장
+        setTokenUseCase(token)
+//        postSideEffect(LoginSideEffect.Toast(message = "token = $token"))
+        postSideEffect(LoginSideEffect.NavigateToMainActivity)
+
     }
 
     //아이디 입력 가능하게 하는 코드
@@ -66,4 +73,5 @@ data class LoginState(
 //상태와 관련없는 것
 sealed interface LoginSideEffect{
     class Toast(val message:String):LoginSideEffect
+    object NavigateToMainActivity:LoginSideEffect
 }
