@@ -46,7 +46,7 @@ private val ColorScheme = lightColorScheme(
 )
 
 @Composable
-fun FastcampusSNSTheme(
+fun ConnectedTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,

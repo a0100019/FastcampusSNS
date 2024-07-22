@@ -1,8 +1,9 @@
-package com.example.presentation
+package com.example.presentation.main.writing
 
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class WritingActivity : AppCompatActivity() {
+
 }

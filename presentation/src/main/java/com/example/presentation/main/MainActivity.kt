@@ -1,4 +1,4 @@
-package com.example.presentation.login
+package com.example.presentation.main
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -7,15 +7,13 @@ import com.example.presentation.theme.ConnectedTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LoginActivity : AppCompatActivity() {
-
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ConnectedTheme {
-
-                LoginNavHost()
+                MainNavHost()
             }
         }
     }
