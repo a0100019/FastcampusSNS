@@ -70,6 +70,9 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.48.1")
     kapt("com.google.dagger:hilt-android-compiler:2.48.1")
 
+    implementation(libs.coil)
+    implementation(libs.coil.compose)
+
     implementation(libs.navigation.compose)
     implementation(libs.hilt.navigation.compose)
 }
