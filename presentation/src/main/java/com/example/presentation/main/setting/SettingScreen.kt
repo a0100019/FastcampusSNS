@@ -72,6 +72,8 @@ fun SettingScreen(viewModel:SettingViewModel = hiltViewModel()){
         onNameChangeClick = {},
         onLogoutClick = viewModel::onLogoutClick
     )
+
+    UsernameDialog()
 }
 
 @Composable
