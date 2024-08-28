@@ -1,9 +1,12 @@
 package com.example.presentation.main.setting
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import com.example.domain.model.User
 import com.example.domain.usecase.login.ClearTokenUseCase
 import com.example.domain.usecase.main.setting.GetMyUserUseCase
+import com.example.domain.usecase.main.setting.SetProfileImageUseCase
+import com.example.domain.usecase.main.setting.SetMyUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import org.orbitmvi.orbit.Container
@@ -12,14 +15,15 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
-import java.lang.reflect.Constructor
 import javax.annotation.concurrent.Immutable
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingViewModel @Inject constructor(
     private val clearTokenUseCase: ClearTokenUseCase,
-    private val getMyUserUseCase: GetMyUserUseCase
+    private val getMyUserUseCase: GetMyUserUseCase,
+    private val setMyUserUseCase: SetMyUserUseCase,
+    private val setProfileImageUseCase: SetProfileImageUseCase
 ) : ViewModel(), ContainerHost<SettingState, SettingSideEffect> {
 
 
@@ -50,6 +54,18 @@ class SettingViewModel @Inject constructor(
     fun onLogoutClick() = intent {
         clearTokenUseCase().getOrThrow()
         postSideEffect(SettingSideEffect.NavigateToLoginActivity)
+    }
+
+    fun onUsernameChange(username: String) = intent {
+        setMyUserUseCase(username = username).getOrThrow()
+        load()
+    }
+
+    fun onImageChange(contentUri: Uri?) = intent {
+        setProfileImageUseCase(
+            contentUri = contentUri.toString()
+        ).getOrThrow()
+        load()
     }
 }
 
