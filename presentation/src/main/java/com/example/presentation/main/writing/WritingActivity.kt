@@ -14,7 +14,7 @@ class WritingActivity : AppCompatActivity() {
 
         setContent {
             ConnectedTheme {
-                WritingNavHost()
+                WritingNavHost { finish() }
             }
         }
     }

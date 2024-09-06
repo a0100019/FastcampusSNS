@@ -10,7 +10,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.presentation.theme.ConnectedTheme
 
 @Composable
-fun WritingNavHost() {
+fun WritingNavHost(
+    onFinish:()->Unit
+) {
 
     val navController = rememberNavController()
     val sharedViewModel:WritingViewModel = viewModel()
@@ -22,14 +24,22 @@ fun WritingNavHost() {
         composable(
             route = WritingRoute.IMAGE_SELECT_SCREEN.route
         ) {
-            ImageSelectScreen(viewModel = sharedViewModel)
+            ImageSelectScreen(
+                viewModel = sharedViewModel,
+                onBackClick = onFinish,
+                onNextClick = {
+                    navController.navigate(WritingRoute.WRITING_SCREEN.route)
+                }
+            )
         }
 
         composable(
             route = WritingRoute.WRITING_SCREEN.route
         ) {
-
+            WritingScreen(
+                viewModel = sharedViewModel,
+                onBackClick = { navController.navigateUp() },
+            )
         }
-
     }
 }
