@@ -4,7 +4,7 @@ plugins {
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
     kotlin("plugin.serialization") version "1.5.0"
-
+    id("org.jetbrains.kotlin.plugin.parcelize")
 }
 
 android {
@@ -57,4 +57,6 @@ dependencies {
     kapt(libs.hilt.compiler)
 
     implementation(libs.datastore)
+
+    implementation(libs.androidx.lifecycle.service)
 }

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">=
+
+        <!-- 백그라운드 게시글 업로드 작업 -->
+        <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+
         <!-- Devices running Android 12L (API level 32) or lower  -->
         <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32"
             tools:ignore="WrongManifestParent" />
@@ -15,4 +19,10 @@
              or higher if your app targets Android 14 (API level 34) or higher.  -->
         <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED"
             tools:ignore="WrongManifestParent" />
+
+        <application>
+                <service
+                    android:name=".service.PostingService"
+                    android:foregroundServiceType="shortService" />
+        </application>
 </manifest>

@@ -1,5 +1,6 @@
 package com.example.data.usecase.file
 
+import com.example.data.di.FC_HOST
 import com.example.data.retrofit.FileService
 import com.example.data.retrofit.UriRequestBody
 import com.example.domain.model.Image
@@ -32,7 +33,7 @@ class UploadImageUseCaseImpl @Inject constructor(
             requestBody
         )
 
-        fileService.uploadFile(
+        FC_HOST+fileService.uploadFile(
             fileName = fileNamePart,
             file = filePart,
         ).data.filePath

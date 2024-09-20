@@ -23,9 +23,7 @@ class SetProfileImageUseCaseImpl @Inject constructor(
         //2. 이미지 업로드 하기
         val imagePath = uploadImageUseCase(image).getOrThrow()
         //3. 내 정보 업데이트
-        setMyUserUseCase(
-            profileImageUrl = FC_HOST + imagePath
-        ).getOrThrow()
+        setMyUserUseCase(profileImageUrl = imagePath).getOrThrow()
 
     }
 }

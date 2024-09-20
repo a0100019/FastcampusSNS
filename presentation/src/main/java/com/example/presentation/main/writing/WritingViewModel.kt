@@ -4,6 +4,7 @@ package com.example.presentation.main.writing
 import androidx.lifecycle.ViewModel
 import com.example.domain.model.Image
 import com.example.domain.usecase.main.writing.GetImageListUseCase
+import com.example.domain.usecase.main.writing.PostBoardUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import org.orbitmvi.orbit.Container
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WritingViewModel @Inject constructor(
-    private val getImageListUseCase: GetImageListUseCase
+    private val getImageListUseCase: GetImageListUseCase,
+    private val postBoardUseCase: PostBoardUseCase
 ):ViewModel(),
     ContainerHost<WritingState, WritingSideEffect> {
 
@@ -67,7 +69,12 @@ class WritingViewModel @Inject constructor(
     }
 
     fun onPostClick() = intent {
-        val writingState = state
+        postBoardUseCase(
+            title = "제목없음",
+            content = state.text,
+            images = state.selectedImages
+        )
+        postSideEffect(WritingSideEffect.Finish)
     }
 }
 
@@ -80,4 +87,6 @@ data class WritingState(
 
 sealed interface WritingSideEffect{
     class Toast(val message: String) : WritingSideEffect
+
+    object Finish : WritingSideEffect
 }
